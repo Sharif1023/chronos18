@@ -12,6 +12,8 @@ const AdminDashboard: React.FC = () => {
   const [tempSettings, setTempSettings] = useState(siteSettings);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  const categories: Watch['category'][] = ['Classic', 'Sport', 'Dive', 'Aviator'];
+
   const stats = {
     revenue: orders.reduce((acc, o) => acc + o.total, 0),
     orderCount: orders.length,
@@ -344,6 +346,12 @@ const AdminDashboard: React.FC = () => {
                         {BRANDS.map(b => <option key={b.id} value={b.name}>{b.name}</option>)}
                       </select>
                     </div>
+                    <div className="space-y-1.5 md:col-span-2">
+                      <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">Series (Category)</label>
+                      <select value={editingWatch.category} onChange={e => setEditingWatch({...editingWatch, category: e.target.value as any})} className="w-full bg-white dark:bg-white/5 border border-gold/20 rounded-lg px-4 py-3 outline-none font-bold uppercase text-sm appearance-none">
+                        {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                      </select>
+                    </div>
                   </div>
 
                   <div className="space-y-1.5">
@@ -364,7 +372,7 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-12">
-                  <div className="bg-gold/[0.03] p-6 md:p-8 rounded-2xl border border-gold/10 space-y-10">
+                  <div className="bg-gold/[0.03] p-6 md:p-8 rounded-2xl border border-gold/10 space-y-8">
                     <div className="space-y-1">
                       <label className="text-[6px] md:text-[8px] uppercase font-black opacity-40">Valuation ($)</label>
                       <input required type="number" value={editingWatch.price} onChange={e => setEditingWatch({...editingWatch, price: parseInt(e.target.value) || 0})} className="w-full bg-transparent border-b-2 border-gold/20 py-1 text-2xl md:text-3xl font-black text-gold outline-none" />
@@ -372,6 +380,16 @@ const AdminDashboard: React.FC = () => {
                     <div className="space-y-1">
                       <label className="text-[6px] md:text-[8px] uppercase font-black opacity-40">Archive Stock</label>
                       <input required type="number" value={editingWatch.stock} onChange={e => setEditingWatch({...editingWatch, stock: parseInt(e.target.value) || 0})} className="w-full bg-transparent border-b border-gold/20 py-1 text-xl font-bold outline-none" />
+                    </div>
+                    <div className="flex items-center gap-4 py-2">
+                       <input 
+                        type="checkbox" 
+                        id="featured-toggle"
+                        checked={editingWatch.featured} 
+                        onChange={e => setEditingWatch({...editingWatch, featured: e.target.checked})} 
+                        className="w-4 h-4 accent-gold"
+                      />
+                      <label htmlFor="featured-toggle" className="text-[9px] uppercase font-black tracking-widest cursor-pointer">Exhibit on Home Showcase</label>
                     </div>
                   </div>
 

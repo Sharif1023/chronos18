@@ -103,3 +103,55 @@ BEGIN
     CREATE POLICY "Admin Read Messages" ON public.messages FOR SELECT 
     USING (auth.jwt() ->> 'email' = 'sharifislam02001@gmail.com');
 END $$;
+
+
+
+
+-- user e jeno data show dekhai
+
+
+-- CHRONOS DATABASE UPDATE: ORDER VISIBILITY & PERSISTENCE
+-- Run this in your Supabase SQL Editor to fix the Profile Order issue.
+
+-- 1. Ensure the user_id column exists and is linked (Safe to run if already exists)
+DO $$ 
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='orders' AND column_name='user_id') THEN
+        ALTER TABLE public.orders ADD COLUMN user_id UUID REFERENCES auth.users(id);
+    END IF;
+END $$;
+
+-- 2. Enable RLS (Safe to run multiple times)
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+
+-- 3. DROP old conflicting policies to avoid "OR" logic issues
+DROP POLICY IF EXISTS "Admin View Orders" ON public.orders;
+DROP POLICY IF EXISTS "Users View Own Orders" ON public.orders;
+DROP POLICY IF EXISTS "Public Create Orders" ON public.orders;
+DROP POLICY IF EXISTS "Enable insert for authenticated users only" ON public.orders;
+
+-- 4. NEW: Admin Access (Full control for your specific email)
+CREATE POLICY "Admin Full Access" ON public.orders
+FOR ALL USING (
+    auth.jwt() ->> 'email' = 'sharifislam02001@gmail.com'
+);
+
+-- 5. NEW: User View Policy (Users can see orders where their ID matches)
+CREATE POLICY "Users View Own Orders" ON public.orders
+FOR SELECT USING (
+    auth.uid() = user_id OR 
+    (customer->>'email') = auth.jwt()->>'email'
+);
+
+-- 6. NEW: Insert Policy (Allows anyone to place an order, but logs their ID if logged in)
+CREATE POLICY "Anyone Can Place Orders" ON public.orders
+FOR INSERT WITH CHECK (
+    true -- We allow the insert, logic in ShopContext handles setting the user_id
+);
+
+-- 7. NEW: Update/Delete Protection
+CREATE POLICY "Users Can Only Cancel Own Pending Orders" ON public.orders
+FOR DELETE USING (
+    (auth.uid() = user_id AND status = 'Pending') OR
+    (auth.jwt() ->> 'email' = 'sharifislam02001@gmail.com')
+);

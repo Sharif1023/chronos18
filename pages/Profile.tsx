@@ -15,8 +15,10 @@ const Profile: React.FC = () => {
 
   const userOrders = useMemo(() => {
     if (!user) return [];
+    // Filter by user_id OR customer email to ensure orders show up even if auth state is partially out of sync
     return orders.filter(o => 
-      o.customer && o.customer.email === user.email
+      (o.user_id === user.id) || 
+      (o.customer && o.customer.email === user.email)
     );
   }, [orders, user]);
 
