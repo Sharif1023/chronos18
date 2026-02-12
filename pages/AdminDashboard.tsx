@@ -377,6 +377,15 @@ const AdminDashboard: React.FC = () => {
                       <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">The Pulse (Movement)</label>
                       <input type="text" value={editingWatch.specifications.movement} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, movement: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs text-obsidian dark:text-champagne" />
                     </div>
+                    {/* FIXED: Explicitly handled "The Depths" and "The Clasp" */}
+                      <div className="space-y-1.5">
+                        <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest opacity-60">The Depths (Water Resistance)</label>
+                        <input type="text" value={editingWatch.specifications?.waterResistance || ''} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, waterResistance: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs text-obsidian dark:text-champagne focus:border-gold" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest opacity-60">The Clasp (Strap)</label>
+                        <input type="text" value={editingWatch.specifications?.strap || ''} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, strap: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs text-obsidian dark:text-champagne focus:border-gold" />
+                      </div>
                   </div>
                 </div>
 
