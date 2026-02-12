@@ -74,29 +74,58 @@ const Home: React.FC = () => {
             <Link to="/shop" className="bg-obsidian dark:bg-gold text-champagne dark:text-obsidian px-12 md:px-16 py-4 md:py-6 uppercase tracking-[0.4em] text-[10px] font-black transition-all hover:scale-105 hover:shadow-2xl">
               {siteSettings.hero_primary_btn_text}
             </Link>
-            <Link to="/shop" className="border border-obsidian/30 dark:border-gold/30 px-10 md:px-12 py-4 md:py-6 uppercase tracking-[0.4em] text-[10px] font-black transition-all hover:bg-obsidian hover:text-white dark:hover:bg-gold dark:hover:text-obsidian text-obsidian dark:text-champagne">
-              {siteSettings.hero_secondary_btn_text}
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Brand Marquee */}
-      <section className="py-12 md:py-20 bg-white dark:bg-black/50 border-y border-gold/10">
-        <div className="max-w-7xl mx-auto px-6 overflow-hidden">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-20 opacity-30 hover:opacity-100 transition-all duration-1000">
-            {BRANDS.map(brand => (
-              <Link 
-                to={`/shop?brand=${encodeURIComponent(brand.name)}`} 
-                key={brand.id} 
-                className="text-base md:text-lg tracking-[0.3em] uppercase hover:text-gold transition-colors font-black text-obsidian dark:text-champagne"
+      {/* Brand Grid (Box style) */}
+<section className="py-12 md:py-20 bg-white dark:bg-black/50 border-y border-gold/10">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      {BRANDS.map((brand) => (
+        <Link
+          key={brand.id}
+          to={`/shop?brand=${encodeURIComponent(brand.name)}`}
+          className="
+            group
+            rounded-2xl
+            border border-gold/10
+            bg-champagne/60 dark:bg-white/5
+            px-5 py-6 md:px-8 md:py-8
+            shadow-sm
+            transition-all duration-500
+            hover:-translate-y-1 hover:shadow-2xl
+            hover:border-gold/30
+          "
+        >
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-[11px] md:text-[13px] tracking-[0.35em] uppercase font-black text-obsidian dark:text-champagne">
+              {brand.name}
+            </span>
+
+            {/* small arrow icon */}
+            <span className="w-9 h-9 rounded-xl border border-gold/15 bg-gold/10 flex items-center justify-center text-gold transition-all duration-500 group-hover:bg-gold group-hover:text-white group-hover:border-gold">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
               >
-                {brand.name}
-              </Link>
-            ))}
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
           </div>
-        </div>
-      </section>
+
+          {/* subtle underline */}
+          <div className="mt-4 h-px w-full bg-gold/10 group-hover:bg-gold/30 transition-all" />
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Featured Section */}
       <section className="py-24 md:py-32 px-6 bg-champagne dark:bg-obsidian overflow-hidden">
@@ -115,7 +144,7 @@ const Home: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-20">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-12 md:gap-20">
             {featured.map(watch => (
               <div key={watch.id} className="group cursor-pointer">
                 <Link to={`/product/${watch.id}`}>
