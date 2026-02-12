@@ -104,6 +104,9 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const inputClasses = "w-full bg-white dark:bg-zinc-900 border border-gold/20 rounded-lg px-4 py-3 outline-none font-bold uppercase text-xs md:text-sm text-obsidian dark:text-champagne focus:border-gold transition-colors";
+  const optionClasses = "bg-white dark:bg-zinc-900 text-obsidian dark:text-champagne font-bold";
+
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 py-10 md:py-20 animate-reveal min-h-screen font-sans text-obsidian dark:text-champagne">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-10 mb-10 md:mb-16">
@@ -232,10 +235,10 @@ const AdminDashboard: React.FC = () => {
                         onChange={(e) => updateOrderStatus(order.id, e.target.value as any)}
                         className="bg-gold/10 text-gold text-[7px] md:text-[9px] font-black uppercase tracking-widest rounded-lg px-3 py-1.5 outline-none border-none cursor-pointer hover:bg-gold/20 transition-all appearance-none text-center"
                       >
-                        <option value="Pending">Pending</option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value="Pending" className={optionClasses}>Pending</option>
+                        <option value="Shipped" className={optionClasses}>Shipped</option>
+                        <option value="Delivered" className={optionClasses}>Delivered</option>
+                        <option value="Cancelled" className={optionClasses}>Cancelled</option>
                       </select>
                     </td>
                   </tr>
@@ -287,19 +290,19 @@ const AdminDashboard: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                   <div className="space-y-2">
                     <label className="text-[7px] md:text-[9px] uppercase font-black opacity-40 tracking-widest">Tagline</label>
-                    <input type="text" value={tempSettings.hero_tag} onChange={e => setTempSettings({...tempSettings, hero_tag: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-sm" />
+                    <input type="text" value={tempSettings.hero_tag} onChange={e => setTempSettings({...tempSettings, hero_tag: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-sm text-obsidian dark:text-champagne" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[7px] md:text-[9px] uppercase font-black opacity-40 tracking-widest">Headline</label>
-                    <input type="text" value={tempSettings.hero_title} onChange={e => setTempSettings({...tempSettings, hero_title: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-sm" />
+                    <input type="text" value={tempSettings.hero_title} onChange={e => setTempSettings({...tempSettings, hero_title: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-sm text-obsidian dark:text-champagne" />
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <label className="text-[7px] md:text-[9px] uppercase font-black opacity-40 tracking-widest">Sub-Headline (Narrative)</label>
-                    <input type="text" value={tempSettings.hero_subtitle} onChange={e => setTempSettings({...tempSettings, hero_subtitle: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-sm" />
+                    <input type="text" value={tempSettings.hero_subtitle} onChange={e => setTempSettings({...tempSettings, hero_subtitle: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-sm text-obsidian dark:text-champagne" />
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <label className="text-[7px] md:text-[9px] uppercase font-black opacity-40 tracking-widest">Hero Backdrop URL</label>
-                    <input type="text" value={tempSettings.hero_image_url} onChange={e => setTempSettings({...tempSettings, hero_image_url: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-mono text-[10px]" />
+                    <input type="text" value={tempSettings.hero_image_url} onChange={e => setTempSettings({...tempSettings, hero_image_url: e.target.value})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-mono text-[10px] text-obsidian dark:text-champagne" />
                   </div>
                 </div>
               </div>
@@ -317,11 +320,13 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {editingWatch && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-obsidian/80 backdrop-blur-3xl p-4 md:p-10">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-obsidian/80 backdrop-blur-3xl p-4 md:p-10 overflow-hidden">
           <div className="bg-champagne dark:bg-obsidian w-full max-w-6xl h-full md:h-auto md:max-h-[90vh] md:rounded-3xl overflow-hidden shadow-4xl flex flex-col border border-gold/20">
             <header className="px-6 py-4 md:px-10 md:py-8 border-b border-gold/10 flex justify-between items-center bg-white/50 dark:bg-black/50 backdrop-blur-md sticky top-0 z-20">
               <div>
-                <h2 className="text-lg md:text-2xl font-black uppercase tracking-tight">{isNew ? 'New Archive Entry' : 'Refine Artifact'}</h2>
+                <h2 className="text-lg md:text-2xl font-black uppercase tracking-tight">
+                  {isNew ? 'New Archive Entry' : 'Refine Artifact'}
+                </h2>
                 <p className="text-[6px] md:text-[8px] opacity-40 uppercase font-black tracking-widest">Registry Protocol v3.0</p>
               </div>
               <button onClick={() => setEditingWatch(null)} className="p-3 opacity-40 hover:opacity-100 transition-all hover:rotate-90">
@@ -329,57 +334,61 @@ const AdminDashboard: React.FC = () => {
               </button>
             </header>
 
-            <form onSubmit={handleSaveWatch} className="flex-grow overflow-y-auto no-scrollbar p-6 md:p-12">
+            <form onSubmit={handleSaveWatch} className="flex-grow overflow-y-auto no-scrollbar p-6 md:p-12 text-obsidian dark:text-champagne">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16">
                 <div className="lg:col-span-2 space-y-12">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">Designation Name</label>
-                      <input required type="text" value={editingWatch.name} onChange={e => setEditingWatch({...editingWatch, name: e.target.value})} className="w-full bg-white dark:bg-white/5 border border-gold/20 rounded-lg px-4 py-3 outline-none font-bold uppercase text-sm" />
+                      <input required type="text" value={editingWatch.name} onChange={e => setEditingWatch({...editingWatch, name: e.target.value})} className={inputClasses} />
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">Maison (Brand)</label>
-                      <select value={editingWatch.brand_name} onChange={e => {
-                        const b = BRANDS.find(brand => brand.name === e.target.value);
-                        if(b) setEditingWatch({...editingWatch, brand_name: b.name, brand_id: b.id});
-                      }} className="w-full bg-white dark:bg-white/5 border border-gold/20 rounded-lg px-4 py-3 outline-none font-bold uppercase text-sm appearance-none">
-                        {BRANDS.map(b => <option key={b.id} value={b.name}>{b.name}</option>)}
+                      <select 
+                        value={editingWatch.brand_name} 
+                        onChange={e => {
+                          const b = BRANDS.find(brand => brand.name === e.target.value);
+                          if(b) setEditingWatch({...editingWatch, brand_name: b.name, brand_id: b.id});
+                        }} 
+                        className={inputClasses}
+                      >
+                        {BRANDS.map(b => <option key={b.id} value={b.name} className={optionClasses}>{b.name}</option>)}
                       </select>
                     </div>
-                    <div className="space-y-1.5 md:col-span-2">
+                    <div className="space-y-2 md:col-span-2">
                       <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">Series (Category)</label>
-                      <select value={editingWatch.category} onChange={e => setEditingWatch({...editingWatch, category: e.target.value as any})} className="w-full bg-white dark:bg-white/5 border border-gold/20 rounded-lg px-4 py-3 outline-none font-bold uppercase text-sm appearance-none">
-                        {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                      <select value={editingWatch.category} onChange={e => setEditingWatch({...editingWatch, category: e.target.value as any})} className={inputClasses}>
+                        {categories.map(cat => <option key={cat} value={cat} className={optionClasses}>{cat}</option>)}
                       </select>
                     </div>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">Historical Context (Description)</label>
-                    <textarea rows={4} value={editingWatch.description} onChange={e => setEditingWatch({...editingWatch, description: e.target.value})} className="w-full bg-white dark:bg-white/5 border border-gold/20 rounded-xl px-4 py-4 outline-none font-medium text-sm" />
+                    <textarea rows={4} value={editingWatch.description} onChange={e => setEditingWatch({...editingWatch, description: e.target.value})} className={`${inputClasses} normal-case h-32 md:h-40 rounded-xl py-4 font-medium`} />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 pt-10 border-t border-gold/10">
                     <div className="space-y-1.5">
                       <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">Exoskeleton (Case)</label>
-                      <input type="text" value={editingWatch.specifications.case} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, case: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs" />
+                      <input type="text" value={editingWatch.specifications.case} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, case: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs text-obsidian dark:text-champagne" />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-[7px] md:text-[9px] uppercase font-black text-gold tracking-widest">The Pulse (Movement)</label>
-                      <input type="text" value={editingWatch.specifications.movement} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, movement: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs" />
+                      <input type="text" value={editingWatch.specifications.movement} onChange={e => setEditingWatch({...editingWatch, specifications: {...editingWatch.specifications, movement: e.target.value}})} className="w-full bg-transparent border-b border-gold/20 py-2 outline-none font-bold text-xs text-obsidian dark:text-champagne" />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-12">
-                  <div className="bg-gold/[0.03] p-6 md:p-8 rounded-2xl border border-gold/10 space-y-8">
+                  <div className="bg-gold/[0.03] dark:bg-white/[0.03] p-6 md:p-8 rounded-2xl border border-gold/10 space-y-8">
                     <div className="space-y-1">
                       <label className="text-[6px] md:text-[8px] uppercase font-black opacity-40">Valuation ($)</label>
                       <input required type="number" value={editingWatch.price} onChange={e => setEditingWatch({...editingWatch, price: parseInt(e.target.value) || 0})} className="w-full bg-transparent border-b-2 border-gold/20 py-1 text-2xl md:text-3xl font-black text-gold outline-none" />
                     </div>
                     <div className="space-y-1">
                       <label className="text-[6px] md:text-[8px] uppercase font-black opacity-40">Archive Stock</label>
-                      <input required type="number" value={editingWatch.stock} onChange={e => setEditingWatch({...editingWatch, stock: parseInt(e.target.value) || 0})} className="w-full bg-transparent border-b border-gold/20 py-1 text-xl font-bold outline-none" />
+                      <input required type="number" value={editingWatch.stock} onChange={e => setEditingWatch({...editingWatch, stock: parseInt(e.target.value) || 0})} className="w-full bg-transparent border-b border-gold/20 py-1 text-xl font-bold outline-none text-obsidian dark:text-champagne" />
                     </div>
                     <div className="flex items-center gap-4 py-2">
                        <input 
@@ -387,7 +396,7 @@ const AdminDashboard: React.FC = () => {
                         id="featured-toggle"
                         checked={editingWatch.featured} 
                         onChange={e => setEditingWatch({...editingWatch, featured: e.target.checked})} 
-                        className="w-4 h-4 accent-gold"
+                        className="w-4 h-4 accent-gold cursor-pointer"
                       />
                       <label htmlFor="featured-toggle" className="text-[9px] uppercase font-black tracking-widest cursor-pointer">Exhibit on Home Showcase</label>
                     </div>
@@ -398,7 +407,7 @@ const AdminDashboard: React.FC = () => {
                       <h3 className="text-[9px] md:text-[11px] font-black uppercase tracking-widest">Visual Portfolio</h3>
                       <button type="button" onClick={addImageField} className="text-[6px] md:text-[8px] font-black uppercase tracking-widest bg-gold/10 text-gold px-3 py-1 rounded-full hover:bg-gold hover:text-white transition-all">+ Add Angle</button>
                     </div>
-                    <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
+                    <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2 no-scrollbar">
                       {editingWatch.images.map((img, idx) => (
                         <div key={idx} className="flex gap-4 items-center bg-white dark:bg-white/5 p-3 rounded-xl border border-gold/10 group">
                           <div className="w-12 h-12 shrink-0 bg-black/5 rounded-lg overflow-hidden border border-gold/10 flex items-center justify-center">
@@ -412,7 +421,7 @@ const AdminDashboard: React.FC = () => {
                             type="text" 
                             value={img} 
                             onChange={e => updateImageField(idx, e.target.value)} 
-                            className="w-full bg-transparent border-b border-gold/10 py-1 outline-none text-[8px] md:text-[10px] font-mono" 
+                            className="w-full bg-transparent border-b border-gold/10 py-1 outline-none text-[8px] md:text-[10px] font-mono text-obsidian dark:text-champagne" 
                             placeholder="Image URL..." 
                           />
                           <button type="button" onClick={() => removeImageField(idx)} className="text-red-500/40 hover:text-red-500 p-2 transition-colors font-bold uppercase text-[8px]">Del</button>
@@ -423,8 +432,8 @@ const AdminDashboard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-12 md:mt-20 pt-8 border-t border-gold/10 flex flex-row gap-4 md:gap-8 sticky bottom-0 bg-champagne/95 dark:bg-obsidian/95 py-4 backdrop-blur-md">
-                <button type="submit" disabled={isSyncing} className="flex-grow bg-gold text-obsidian py-4 md:py-6 rounded-xl text-[9px] md:text-[11px] uppercase font-black tracking-[0.4em] shadow-xl transition-all hover:-translate-y-1">
+              <div className="mt-12 md:mt-20 pt-8 border-t border-gold/10 flex flex-row gap-4 md:gap-8 sticky bottom-0 bg-champagne/95 dark:bg-obsidian/95 py-4 backdrop-blur-md z-10">
+                <button type="submit" disabled={isSyncing} className="flex-grow bg-gold text-obsidian py-4 md:py-6 rounded-xl text-[9px] md:text-[11px] uppercase font-black tracking-[0.4em] shadow-xl transition-all hover:-translate-y-1 active:scale-[0.98]">
                   {isSyncing ? 'Synchronizing Archive...' : 'Seal Registry Entry'}
                 </button>
                 <button type="button" onClick={() => setEditingWatch(null)} className="px-8 md:px-16 border border-gold/20 text-gold py-4 md:py-6 rounded-xl text-[8px] md:text-[10px] uppercase font-black tracking-widest hover:bg-gold/5 transition-all">Discard</button>
